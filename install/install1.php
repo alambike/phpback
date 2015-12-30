@@ -87,6 +87,10 @@ function hashPassword($input, $rounds = 7) {
     return crypt($input, sprintf('$2a$%02d$', $rounds) . $salt);
 }
 
+/* if started from commandline, wrap parameters to $_POST*/
+if (!isset($_SERVER["HTTP_HOST"])) 
+    parse_str($argv[1], $_POST);
+
 if($_POST['adminpass'] != $_POST['adminrpass'])
 	exit_error('Admin passwords do not match');
 
