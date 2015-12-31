@@ -36,7 +36,7 @@ function redirectpost($url, array $data){
 		    echo "</form>";
 		    "</body>";
 		    "</html>";
-		    exit;
+		    exit(1);
 }
 
 function exit_error($string){
