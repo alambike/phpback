@@ -18,15 +18,18 @@ include "../application/config/database.php";
 
 $mysql = new mysqli($db['default']['hostname'], $db['default']['username'], $db['default']['password'], $db['default']['database']);
 
-if ($server->connect_error) echo('Connection Error (' . $server->connect_errno . ') ' . $server->connect_error . '<br>');
+if ($mysql->connect_error) {
+    echo('Connection Error (' . $mysql->connect_errno . ') ' . $mysql->connect_error . '<br>');
+    exit(2);
+}
 
 $mysql->multi_query("INSERT INTO `settings` (`id`, `name`, `value`) VALUES
 ('', 'recaptchapublic', '". $_POST['rpublic'] ."'),
 ('', 'recaptchaprivate', '". $_POST['rprivate'] ."'),
-('', 'maxvotes', '". (isset($_POST['maxvotes'])? $_POST['maxvotes'] : 20)."'),
+('', 'maxvotes', '". (isset($_POST['maxvotes']) && $_POST['maxvotes'] != '')? $_POST['maxvotes'] : 20)."'),
 ('', 'mainmail', '". $_POST['mainmail'] ."'),
 ('', 'title', '". $_POST['title'] ."'),
-('', 'max_results', '".(isset($_POST['max_results'])? $_POST['max_results'] : 10)."'),
+('', 'max_results', '".(isset($_POST['max_results']) && $_POST['max_results'] != '')? $_POST['max_results'] : 10)."'),
 ('', 'language', '".(isset($_POST['language'])? $_POST['language'] : 'english')."'),
 ('', 'smtp-host', '". $_POST['smtp-host'] ."'),
 ('', 'smtp-port', '". $_POST['smtp-port'] ."'),
